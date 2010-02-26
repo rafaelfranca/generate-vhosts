@@ -1,26 +1,40 @@
---- 
+---
 standard: |
-  <VirtualHost *>
-    ServerName    #{@domain}
-    ServerAlias   www.#{@domain}
-    DocumentRoot  /srv/http#{@location}#{@domain}/htdocs
-    RewriteEngine on
-    RewriteCond   %{HTTP_HOST} ^www\\.#{@domain.gsub('.','\.')}
-    RewriteRule   (.*) http://#{@domain}$1 [R=301,L]
+  <VirtualHost *:80>
+    ServerName #{@domain}
+    DocumentRoot /var/www#{@location}
+    <Directory \"/var/www#{@location}\">
+      Options FollowSymLinks
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+    </Directory>
+    #{@custom}
+  </VirtualHost>
+
+repos: |
+  <VirtualHost *:80>
+    ServerName #{@domain}
+    DocumentRoot /home/rafael/repos#{@location}
+    <Directory \"/home/rafael/repos#{@location}\">
+      Options FollowSymLinks
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+    </Directory>
     #{@custom}
   </VirtualHost>
 
 alias: |
-  <VirtualHost *>
+  <VirtualHost *:80>
     ServerName        #{@domain}
     ServerAlias       www.#{@domain}
     RedirectPermanent / http://#{@redirect}/
   </VirtualHost>
 
-rails: | 
-  <VirtualHost *>
+rails: |
+  <VirtualHost *:80>
     ServerName    #{@domain}
-    ServerAlias   www.#{@domain}
     DocumentRoot  /srv/rails#{@location}#{@domain}/public
     <Directory \"/srv/rails#{@location}#{@domain}/public\">
       Options -Indexes FollowSymLinks
@@ -36,7 +50,7 @@ rails: |
   </VirtualHost>
 
 custom: |
-  <VirtualHost *>
+  <VirtualHost *:80>
     ServerName #{@domain}
     #{@custom}
   </VirtualHost>
