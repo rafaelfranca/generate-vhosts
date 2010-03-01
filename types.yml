@@ -35,17 +35,14 @@ alias: |
 rails: |
   <VirtualHost *:80>
     ServerName    #{@domain}
-    DocumentRoot  /srv/rails#{@location}#{@domain}/public
-    <Directory \"/srv/rails#{@location}#{@domain}/public\">
-      Options -Indexes FollowSymLinks
+    DocumentRoot  /home/rafael/repos#{@location}/public
+    <Directory \"/home/rafael/repos#{@location}/public\">
+      Options -Indexes FollowSymLinks -MultiViews
       AllowOverride All
       Order allow,deny
       Allow from all
     </Directory>
     RailsEnv      #{@railsenv}
-    RewriteEngine on
-    RewriteCond   %{HTTP_HOST} ^www\\.#{@domain.gsub('.','\.')}
-    RewriteRule   (.*) http://#{@domain}$1 [R=301,L]
     #{@custom}
   </VirtualHost>
 
