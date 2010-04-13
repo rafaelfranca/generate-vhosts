@@ -35,8 +35,8 @@ alias: |
 rails: |
   <VirtualHost *:80>
     ServerName    #{@domain}
-    DocumentRoot  /home/rafael/repos#{@location}/public
-    <Directory \"/home/rafael/repos#{@location}/public\">
+    DocumentRoot  /home/rafael/repos#{@location}public
+    <Directory \"/home/rafael/repos#{@location}public\">
       Options -Indexes FollowSymLinks -MultiViews
       AllowOverride All
       Order allow,deny
@@ -45,6 +45,21 @@ rails: |
     RailsEnv      #{@railsenv}
     #{@custom}
   </VirtualHost>
+
+rails3: |
+  <VirtualHost *:80>
+    ServerName    #{@domain}
+    DocumentRoot  /home/rafael/repos#{@location}public
+    <Directory \"/home/rafael/repos#{@location}public\">
+      Options -Indexes FollowSymLinks -MultiViews
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+    </Directory>
+    RackEnv      #{@railsenv}
+    #{@custom}
+  </VirtualHost>
+
 
 custom: |
   <VirtualHost *:80>
