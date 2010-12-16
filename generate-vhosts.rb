@@ -100,3 +100,40 @@ end
 File.open("#{CONFIG_PATH}/default",'w') do |f|
   f.puts output
 end
+
+#host
+
+CONFIG_HOSTS_PATH = '/etc'
+
+output = ""
+
+# Default/catchall vhost.
+output << <<END
+192.168.1.106	firestorm	# Added by NetworkManager
+127.0.0.1	localhost.localdomain	localhost
+::1	firestorm	localhost6.localdomain6	localhost6
+
+END
+
+hosts.each do |k,v|
+  output << '127.0.0.1	'+k+'
+'
+end
+
+output << <<END
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+END
+
+# Write the output file
+File.open("#{CONFIG_HOSTS_PATH}/hosts",'w') do |f|
+  f.puts output
+end
+
+exec '/etc/init.d/apache2 restart'
