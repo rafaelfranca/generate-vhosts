@@ -12,6 +12,36 @@ standard: |
     #{@custom}
   </VirtualHost>
 
+symfony: |
+  <VirtualHost *:80>
+    ServerName #{@domain}
+    DocumentRoot \"/home/toze/Projetos/php#{@location}web\"
+    DirectoryIndex index.php
+    <Directory \"/home/toze/Projetos/php#{@location}web\">
+      AllowOverride All
+      Allow from All
+    </Directory>
+
+    Alias /sf \"/home/toze/Projetos/php#{@location}lib/vendor/symfony/data/web/sf\"
+    <Directory \"/home/toze/Projetos/php#{@location}lib/vendor/symfony/data/web/sf\">
+      AllowOverride All
+      Allow from All
+    </Directory>
+  </VirtualHost>
+
+php: |
+  <VirtualHost *:80>
+    ServerName #{@domain}
+    DocumentRoot /home/toze/Projetos/php#{@location}
+    <Directory \"/home/toze/Projetos/php#{@location}\">
+      Options FollowSymLinks
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+    </Directory>
+    #{@custom}
+  </VirtualHost>
+
 repos: |
   <VirtualHost *:80>
     ServerName #{@domain}
