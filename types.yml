@@ -66,3 +66,20 @@ custom: |
     ServerName #{@domain}
     #{@custom}
   </VirtualHost>
+
+symfony: |
+  <VirtualHost *:80>
+    ServerName #{@domain}
+    DocumentRoot \"/home/rafael/repos#{@location}web\"
+    DirectoryIndex index.php
+    <Directory \"/home/rafael/repos#{@location}web\">
+      AllowOverride All
+      Allow from All
+    </Directory>
+
+    Alias /sf \"/home/rafael/repos#{@location}lib/vendor/symfony/data/web/sf\"
+    <Directory \"/home/rafael/repos#{@location}lib/vendor/symfony/data/web/sf\">
+      AllowOverride All
+      Allow from All
+    </Directory>
+  </VirtualHost>
